@@ -1,1 +1,22 @@
-<p>characters-list works!</p>
+<mat-card *ngFor="let character of dataSource.charactersSubject | async" class="character-card mat-elevation-z10">
+
+    <mat-card-header>
+        <mat-card-title>{{character.name}}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div>
+            <p>Species</p><span *ngFor="let spece of character.species">{{ spece }}</span>
+        </div>
+        <div>
+            <p>Movies</p><span *ngFor="let film of character.films">{{ film }}</span>
+        </div>
+        <div>
+            <p>Starships</p><span *ngFor="let starship of character.starships">{{ starship }}</span>
+        </div>
+    </mat-card-content>
+
+</mat-card>
+
+<mat-paginator [length]="characters.length"
+               [pageSize]="pageSize"></mat-paginator>
