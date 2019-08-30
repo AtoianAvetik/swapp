@@ -24,8 +24,8 @@ export class ApiService {
 
     }
 
-    get(path) {
-        return this.http.get(`${this.url + path}`, this.options)
+    get(path, absolutePath = false) {
+        return this.http.get(absolutePath ? path : `${this.url + path}`, this.options)
             .pipe(
                 catchError(err => this.handleErrors(err))
             );

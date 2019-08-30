@@ -12,16 +12,26 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
+import { FilterModule } from './filter/filter.module';
+import { CharactersModule } from './characters/characters.module';
+import { StarshipsModule } from './starships/starships.module';
+import { FilmsModule } from './films/films.module';
+import { SpeciesModule } from './species/species.module';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
         CoreModule,
+        CharactersModule,
+        FilterModule,
+        StarshipsModule,
+        FilmsModule,
+        SpeciesModule,
         ToastrModule.forRoot({
             timeOut: 3000,
             preventDuplicates: true,
@@ -37,7 +47,6 @@ import { environment } from '../environments/environment';
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         EffectsModule.forRoot([]),
     ],
-    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

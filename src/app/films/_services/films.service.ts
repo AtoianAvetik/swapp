@@ -3,23 +3,23 @@ import { Observable, of } from 'rxjs';
 import { expand, map, scan } from 'rxjs/operators';
 
 import { ApiService } from '../../core/_services/api.service';
-import { Character } from '../models/character';
+import { Film } from '../models/film';
 
 @Injectable()
-export class CharactersService {
+export class FilmsService {
     constructor(private $apiService: ApiService) {
 
     }
 
-    getAllCharacters(): Observable<any> {
-        return this.$apiService.get('people/')
+    getAllFilms(): Observable<Film[]> {
+        return this.$apiService.get('films/')
             .pipe(
                 expand(res => res['next']
                     ? this.$apiService.get(res['next'], true)
                     : of()),
                 map(res => res['results']),
                 scan((acc, res) => acc.concat(res), []),
-                map(res => res.map((v, i) => new Character(v, i.toString()))),
+                map(res => res.map((v, i) => new Film(v, i.toString()))),
             );
     }
 }

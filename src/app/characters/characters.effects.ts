@@ -20,19 +20,17 @@ export class CharactersEffects {
         .pipe(
             ofType<CharactersRequested>(CharactersActionTypes.CHARACTERS_REQUESTED),
             withLatestFrom(this.store.pipe(select(charactersLoaded))),
-            filter(([action, isCharactersLoaded]) => {
-                console.log(action);
-                console.log(isCharactersLoaded);
-                return !isCharactersLoaded;
-            }),
+            filter(([action, isCharactersLoaded]) => !isCharactersLoaded),
             mergeMap(() => this.$charactersService.getAllCharacters()),
-            map(characters => new CharactersLoaded({characters}))
+            map(characters => {
+                // console.log(characters);
+                return new CharactersLoaded({characters});
+            })
         );
 
     constructor(private actions$: Actions, private $charactersService: CharactersService,
                 private store: Store<State>) {
     }
-
 }
 
 

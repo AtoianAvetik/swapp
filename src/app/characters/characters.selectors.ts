@@ -23,7 +23,6 @@ export const selectCharactersPage = (page: PageQuery) => createSelector(
 
         const start = page.pageIndex * page.pageSize;
         const end = start + page.pageSize;
-        console.log(allCharacters.slice(start, end));
         return allCharacters
             .slice(start, end);
 

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CharactersComponent } from './characters/characters.component';
+import { CharacterDetailsComponent } from './characters/character-details/character-details.component';
 
 const appRoutes: Routes = [
     {
@@ -9,8 +11,12 @@ const appRoutes: Routes = [
     },
     {
         path: 'characters',
-        loadChildren: () => import('./characters/characters.module').then(m => m.CharactersModule),
-    }
+        component: CharactersComponent
+    },
+    {
+        path: 'characters:id',
+        component: CharacterDetailsComponent,
+    },
 ];
 
 @NgModule({

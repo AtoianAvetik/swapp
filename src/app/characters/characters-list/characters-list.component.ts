@@ -18,7 +18,7 @@ export class CharactersListComponent implements OnInit, AfterViewInit {
     dataSource: CharactersDataSource;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-    pageSize = 3;
+    pageSize = 10;
 
     constructor(private store: Store<State>) {
     }
@@ -27,7 +27,7 @@ export class CharactersListComponent implements OnInit, AfterViewInit {
         this.dataSource = new CharactersDataSource(this.store);
         const initialPage: PageQuery = {
             pageIndex: 0,
-            pageSize: 3
+            pageSize: this.pageSize
         };
         this.dataSource.loadCharacters(initialPage);
     }

@@ -20,7 +20,7 @@ export const initialState: CharactersState = adapter.getInitialState({
 export function charactersReducers(state = initialState, action: CharactersActions): CharactersState {
     switch (action.type) {
         case CharactersActionTypes.CHARACTERS_LOADED:
-            return adapter.addAll(action.payload.characters, {...state, allCoursesLoaded: true});
+            return adapter.addAll(action.payload.characters, {...state, charactersLoaded: true});
         default:
             return state;
     }

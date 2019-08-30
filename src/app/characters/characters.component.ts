@@ -6,6 +6,9 @@ import { State } from '../reducers';
 import { CharactersRequested} from './characters.actions';
 import { Character } from './models/character';
 import { selectCharacters } from './characters.selectors';
+import { selectStarships } from '../starships/starships.selectors';
+import { selectFilms } from '../films/films.selectors';
+import { selectSpecies } from '../species/species.selectors';
 
 @Component({
     selector: 'app-characters',
@@ -19,8 +22,16 @@ export class CharactersComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(1);
         this.store.dispatch(new CharactersRequested());
         this.characters$ = this.store.pipe(select(selectCharacters));
+        // this.store.pipe(select(selectStarships)).subscribe(res => {
+        //     console.log(res);
+        // });
+        // this.store.pipe(select(selectFilms)).subscribe(res => {
+        //     console.log(res);
+        // });
+        // this.store.pipe(select(selectSpecies)).subscribe(res => {
+        //     console.log(res);
+        // });
     }
 }
