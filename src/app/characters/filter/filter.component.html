@@ -1,0 +1,29 @@
+<form [formGroup]="form" class="mb-3">
+    <mat-form-field class="mr-2">
+        <mat-label>Film</mat-label>
+        <mat-select formControlName="films">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let film of films$ | async" [value]="film?.title">
+                {{film.title}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Species</mat-label>
+        <mat-select formControlName="species">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let species of species$ | async" [value]="species?.name">
+                {{species.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="mt-4">
+        <nouislider [min]="minRange"
+                    [max]="maxRange"
+                    [step]="step"
+                    [config]="sliderConfig"
+                    (end)="updateFormValue()"
+                    [formControl]="form.controls.birthYear"></nouislider>
+        <label>Birth year</label>
+    </div>
+</form>
