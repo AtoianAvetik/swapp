@@ -26,12 +26,12 @@ import { StarshipsModule } from './starships/starships.module';
         BrowserModule,
         HttpClientModule,
         NgtModule.forRoot(),
-        AppRoutingModule,
         CoreModule,
         CharactersModule,
         FilmsModule,
         SpeciesModule,
         StarshipsModule,
+        AppRoutingModule,
         ToastrModule.forRoot({
             timeOut: 3000,
             preventDuplicates: true,

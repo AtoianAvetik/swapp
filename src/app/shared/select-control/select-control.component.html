@@ -1,0 +1,12 @@
+<mat-form-field [ngClass]="customClass">
+    <mat-label *ngIf="label">{{ label }}</mat-label>
+    <mat-select [placeholder]="placeholder" [(value)]="value">
+        <mat-option *ngIf="defaultOption" [value]="defaultOption[optionValue]">
+            {{defaultOption[optionText]}}
+        </mat-option>
+        <mat-option *ngFor="let option of options" [value]="option[optionValue]">
+            {{option[optionText]}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+

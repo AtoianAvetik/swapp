@@ -7,6 +7,10 @@ const appRoutes: Routes = [
         redirectTo: 'characters',
         pathMatch: 'full'
     },
+    {
+        path: '**',
+        redirectTo: 'characters',
+    },
 ];
 
 @NgModule({

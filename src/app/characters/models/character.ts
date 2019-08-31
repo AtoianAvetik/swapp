@@ -7,9 +7,9 @@ import { selectFilms } from '../../films/films.selectors';
 export class Character {
     id: string;
     name: string;
-    films: string[];
-    species: string[];
-    starships: string[];
+    films: {}[];
+    species: {}[];
+    starships: {}[];
     birthYear: string;
 
     constructor(data, id: string, store: Store<State>) {
@@ -21,16 +21,22 @@ export class Character {
         this.birthYear = data.birth_year;
 
         store.pipe(select(selectFilms)).subscribe(res => {
-            this.films = this.films.map(f => res.find(v => v.url === f).title);
+            this.films = this.films.map(f => Character.filterObject(res.find(v => v.url === f), ['id', 'title']));
         });
 
         store.pipe(select(selectSpecies)).subscribe(res => {
-            this.species = this.species.map(f => res.find(v => v.url === f).name);
+            this.species = this.species.map(f => Character.filterObject(res.find(v => v.url === f), ['id', 'name']));
         });
 
         store.pipe(select(selectStarships)).subscribe(res => {
-            this.starships = this.starships.map(f => res.find(v => v.url === f).name);
+            this.starships = this.starships.map(f => Character.filterObject(res.find(v => v.url === f), ['id', 'name']));
         });
+    }
+
+    static filterObject(obj, keys) {
+        return Object.keys(obj)
+            .filter( key => keys.indexOf(key) !== -1)
+            .reduce( (acc, key) => (acc[key] = obj[key], acc), {} );
     }
 }
 

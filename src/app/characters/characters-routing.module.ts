@@ -6,7 +6,7 @@ import { CharacterDetailsComponent } from './character-details/character-details
 const routes: Routes = [
     {
         path: 'characters',
-        component: CharactersComponent
+        component: CharactersComponent,
     },
     {
         path: 'characters/:id',

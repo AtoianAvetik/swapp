@@ -8,7 +8,6 @@ import { State } from '../../reducers';
 import { CharactersFiltered, CharactersPageChanged } from '../characters.actions';
 import { map } from 'rxjs/operators';
 
-
 @Component({
     selector: 'app-filter',
     templateUrl: './filter.component.html',
@@ -24,12 +23,7 @@ export class FilterComponent implements OnInit, AfterViewInit {
     birthYearRange = [0, 0];
     minRange = 0;
     maxRange = 10;
-    step = 1;
     sliderConfig: any = {
-        behaviour: 'drag',
-        connect: true,
-        margin: 1,
-        tooltips: true,
         format: {
             from: (value) => {
                 return parseInt(value, 10);
@@ -61,8 +55,9 @@ export class FilterComponent implements OnInit, AfterViewInit {
             .subscribe(res => {
                 this.maxRange = res.length ? Math.max.apply(this, res) : this.maxRange;
                 this.birthYearRange = [0, this.maxRange];
+                this.form.controls['birthYear'].patchValue(this.birthYearRange);
                 this.cdRef.detectChanges();
-                this.birthYearRangeChanged();
+                this.updateFilter();
             });
     }
 
@@ -72,11 +67,6 @@ export class FilterComponent implements OnInit, AfterViewInit {
             species: [''],
             birthYear: [[0, 0]],
         });
-    }
-
-    birthYearRangeChanged(e = this.birthYearRange) {
-        this.form.controls['birthYear'].patchValue(e);
-        this.updateFilter();
     }
 
     updateFilter(filter = this.form.value) {

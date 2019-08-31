@@ -7,13 +7,13 @@
     </div>
     <div class="card-body">
         <p class="card-text" *ngIf="character?.species.length"><strong>Species</strong>:
-            <span *ngFor="let specie of character?.species;let i = index;">{{ specie }}{{(i + 1 < character?.species.length) ? ', ' : ' '}}</span>
+            <span *ngFor="let specie of character?.species;let i = index;">{{ specie.name }}{{(i + 1 < character?.species.length) ? ', ' : ' '}}</span>
         </p>
         <p class="card-text" *ngIf="character?.films.length"><strong>Movies</strong>:
-            <span *ngFor="let film of character?.films;let i = index;">{{ film }}{{(i + 1 < character?.films.length) ? ', ' : ' '}}</span>
+            <span *ngFor="let film of character?.films;let i = index;">{{ film.title }}{{(i + 1 < character?.films.length) ? ', ' : ' '}}</span>
         </p>
         <p class="card-text" *ngIf="character?.starships.length"><strong>Spaceships</strong>:
-            <span *ngFor="let starship of character?.starships;let i = index;">{{ starship }}{{(i + 1 < character?.starships.length) ? ', ' : ' '}}</span>
+            <span *ngFor="let starship of character?.starships;let i = index;">{{ starship.name }}{{(i + 1 < character?.starships.length) ? ', ' : ' '}}</span>
         </p>
     </div>
 </div>

@@ -1,30 +1,29 @@
 <form [formGroup]="form" class="mb-3">
-    <mat-form-field class="mr-2">
-        <mat-label>Film</mat-label>
-        <mat-select formControlName="films">
-            <mat-option value="">All</mat-option>
-            <mat-option *ngFor="let film of films$ | async" [value]="film?.title">
-                {{film.title}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Species</mat-label>
-        <mat-select formControlName="species">
-            <mat-option value="">All</mat-option>
-            <mat-option *ngFor="let species of species$ | async" [value]="species?.name">
-                {{species.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <div class="row">
+        <app-select-control [formControlName]="'films'"
+                            [options]="films$ | async"
+                            [placeholder]="'Films'"
+                            [defaultOption]="{id: '', title: 'All'}"
+                            [label]="'Films'"
+                            option.value="id"
+                            option.text="title"
+                            class="mr-2">
+        </app-select-control>
+        <app-select-control [formControlName]="'species'"
+                            [options]="species$ | async"
+                            [placeholder]="'Species'"
+                            [defaultOption]="{id: '', name: 'All'}"
+                            [label]="'Species'"
+                            option.value="id"
+                            option.text="name">
+        </app-select-control>
+    </div>
     <div class="mt-4">
-        <nouislider [min]="minRange"
-                    [max]="maxRange"
-                    [step]="step"
-                    [config]="sliderConfig"
-                    (end)="birthYearRangeChanged($event)"
-                    [(ngModel)]="birthYearRange"
-                    [ngModelOptions]="{standalone: true}"></nouislider>
-        <label>Birth year</label>
+        <app-slider-control [formControlName]="'birthYear'"
+                            [min]="minRange"
+                            [max]="maxRange"
+                            [changeOnSlideEnd]="true"
+                            [config]="sliderConfig">
+        </app-slider-control>
     </div>
 </form>

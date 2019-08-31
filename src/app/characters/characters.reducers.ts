@@ -45,7 +45,10 @@ export function charactersReducers(state = initialState, action: CharactersActio
                             }
 
                             if (Array.isArray(item[key]) && filters[key] !== '') {
-                                if (item[key].indexOf(filters[key]) === -1) {
+                                if ( !item[key].length ) {
+                                    return false;
+                                }
+                                if (!item[key].find(v => v.id === filters[key])) {
                                     return false;
                                 }
                             }

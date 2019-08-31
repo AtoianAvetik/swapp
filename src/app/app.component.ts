@@ -3,6 +3,10 @@ import { NgtLoaderService } from 'ng-tools';
 import { select, Store } from '@ngrx/store';
 import { State } from './reducers';
 import { charactersLoading } from './characters/characters.selectors';
+import { FilmsRequested } from './films/films.actions';
+import { SpeciesRequested } from './species/species.actions';
+import { StarshipsRequested } from './starships/starships.actions';
+import { CharactersRequested } from './characters/characters.actions';
 
 @Component({
     selector: 'app-root',
@@ -18,6 +22,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.store.dispatch(new FilmsRequested());
+        this.store.dispatch(new SpeciesRequested());
+        this.store.dispatch(new StarshipsRequested());
+        this.store.dispatch(new CharactersRequested());
     }
 
     ngAfterViewInit(): void {

@@ -2,12 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { State } from '../../reducers';
 import { select, Store } from '@ngrx/store';
-import { selectCharacter } from '../characters.selectors';
-import { CharactersRequested } from '../characters.actions';
+import { charactersLoading, selectCharacter } from '../characters.selectors';
 import { Subscription } from 'rxjs';
-import { FilmsRequested } from '../../films/films.actions';
-import { SpeciesRequested } from '../../species/species.actions';
-import { StarshipsRequested } from '../../starships/starships.actions';
 
 @Component({
     selector: 'app-character-details',
@@ -16,7 +12,7 @@ import { StarshipsRequested } from '../../starships/starships.actions';
 })
 export class CharacterDetailsComponent implements OnInit, OnDestroy {
     character;
-    subsc: Subscription;
+    subscriptions: Subscription[] = [];
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -24,16 +20,17 @@ export class CharacterDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.store.dispatch(new CharactersRequested());
-        this.store.dispatch(new FilmsRequested());
-        this.store.dispatch(new SpeciesRequested());
-        this.store.dispatch(new StarshipsRequested());
-
         this.route.params.subscribe(params => {
-            this.subsc = this.store.pipe(select(selectCharacter(params.id)))
+            this.subscriptions.push(this.store.pipe(select(selectCharacter(params.id)))
                 .subscribe(res => {
                     this.character = res;
-                });
+                }));
+            this.subscriptions.push(this.store.pipe(select(charactersLoading))
+                .subscribe(res => {
+                    if ( !res && !this.character ) { // if loading finished and character not founded then go to list
+                        this.goBack();
+                    }
+                }));
         });
     }
 
@@ -42,6 +39,6 @@ export class CharacterDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subsc.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 }
