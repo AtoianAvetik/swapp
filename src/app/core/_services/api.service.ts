@@ -11,7 +11,9 @@ class ApiError {
     }
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ApiService {
     private url = environment.api;
     private headers = new HttpHeaders({'Content-type': 'application/json'});

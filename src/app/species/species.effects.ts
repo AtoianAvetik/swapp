@@ -4,13 +4,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '../reducers';
-import { SpeciesService } from './_services/species.service';
 import {
     SpeciesActionTypes,
     SpeciesLoaded,
     SpeciesRequested
 } from './species.actions';
 import { speciesLoaded } from './species.selectors';
+import { DataService } from '../core/_services/data.service';
+import { Species } from './models/species';
 
 @Injectable()
 export class SpeciesEffects {
@@ -21,11 +22,14 @@ export class SpeciesEffects {
             ofType<SpeciesRequested>(SpeciesActionTypes.SPECIES_REQUESTED),
             withLatestFrom(this.store.pipe(select(speciesLoaded))),
             filter(([action, isSpeciesLoaded]) => !isSpeciesLoaded),
-            mergeMap(() => this.$speciesService.getAllSpecies()),
-            map(species => new SpeciesLoaded({species}))
+            mergeMap(() => this.$dataService.fetchPaginatedData('species/')),
+            map(species => new SpeciesLoaded({
+                species: species.map((v, i) => new Species(v, i.toString()))
+            }))
         );
 
-    constructor(private actions$: Actions, private $speciesService: SpeciesService,
+    constructor(private actions$: Actions,
+                private $dataService: DataService,
                 private store: Store<State>) {
     }
 }

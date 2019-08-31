@@ -10,7 +10,6 @@ import { CharacterDetailsComponent } from './character-details/character-details
 import { CharactersListComponent } from './characters-list/characters-list.component';
 import * as fromCharacters from './characters.reducers';
 import { CharactersEffects } from './characters.effects';
-import { CharactersService } from './_services/characters.service';
 import { CharactersRoutingModule } from './characters-routing.module';
 import { NgtModule } from 'ng-tools';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -37,9 +36,6 @@ import { FilterComponent } from './filter/filter.component';
         NouisliderModule,
         StoreModule.forFeature(fromCharacters.charactersFeatureKey, fromCharacters.charactersReducers),
         EffectsModule.forFeature([CharactersEffects]),
-    ],
-    providers: [
-        CharactersService,
     ],
     exports: [
         FilterComponent,

@@ -4,13 +4,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '../reducers';
-import { StarshipsService } from './_services/starships.service';
 import {
     StarshipsActionTypes,
     StarshipsLoaded,
     StarshipsRequested
 } from './starships.actions';
 import { starshipsLoaded } from './starships.selectors';
+import { DataService } from '../core/_services/data.service';
+import { Starship } from './models/starship';
 
 @Injectable()
 export class StarshipsEffects {
@@ -21,11 +22,14 @@ export class StarshipsEffects {
             ofType<StarshipsRequested>(StarshipsActionTypes.STARSHIPS_REQUESTED),
             withLatestFrom(this.store.pipe(select(starshipsLoaded))),
             filter(([action, isStarshipsLoaded]) => !isStarshipsLoaded),
-            mergeMap(() => this.$starshipsService.getAllStarships()),
-            map(starships => new StarshipsLoaded({starships}))
+            mergeMap(() => this.$dataService.fetchPaginatedData('starships/')),
+            map(starships => new StarshipsLoaded({
+                starships: starships.map((v, i) => new Starship(v, i.toString()))
+            }))
         );
 
-    constructor(private actions$: Actions, private $starshipsService: StarshipsService,
+    constructor(private actions$: Actions,
+                private $dataService: DataService,
                 private store: Store<State>) {
     }
 }
