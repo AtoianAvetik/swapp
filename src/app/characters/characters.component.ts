@@ -3,12 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { State } from '../reducers';
-import { CharactersRequested} from './characters.actions';
+import { CharactersRequested } from './characters.actions';
 import { Character } from './models/character';
-import { selectCharacters } from './characters.selectors';
-import { selectStarships } from '../starships/starships.selectors';
-import { selectFilms } from '../films/films.selectors';
-import { selectSpecies } from '../species/species.selectors';
+import { selectFilteredCharacters } from './characters.selectors';
+import { StarshipsRequested } from '../starships/starships.actions';
+import { FilmsRequested } from '../films/films.actions';
+import { SpeciesRequested } from '../species/species.actions';
 
 @Component({
     selector: 'app-characters',
@@ -16,22 +16,16 @@ import { selectSpecies } from '../species/species.selectors';
     styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent implements OnInit {
-    characters$: Observable<Character[]>;
+    filteredCharacters$: Observable<Character[]>;
 
     constructor(private store: Store<State>) {
     }
 
     ngOnInit() {
+        this.store.dispatch(new FilmsRequested());
+        this.store.dispatch(new SpeciesRequested());
+        this.store.dispatch(new StarshipsRequested());
         this.store.dispatch(new CharactersRequested());
-        this.characters$ = this.store.pipe(select(selectCharacters));
-        // this.store.pipe(select(selectStarships)).subscribe(res => {
-        //     console.log(res);
-        // });
-        // this.store.pipe(select(selectFilms)).subscribe(res => {
-        //     console.log(res);
-        // });
-        // this.store.pipe(select(selectSpecies)).subscribe(res => {
-        //     console.log(res);
-        // });
+        this.filteredCharacters$ = this.store.pipe(select(selectFilteredCharacters));
     }
 }

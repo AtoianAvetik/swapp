@@ -9,4 +9,5 @@
 </mat-card>
 
 <mat-paginator [length]="characters.length"
+               [pageIndex]="pageIndex$ | async"
                [pageSize]="pageSize"></mat-paginator>

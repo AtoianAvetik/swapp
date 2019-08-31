@@ -1,4 +1,4 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromCharacters from './characters.reducers';
 
@@ -12,23 +12,42 @@ export const selectCharacters = createSelector(
     fromCharacters.selectAll
 );
 
+export const selectCharacter = (id: number) => createSelector(
+    selectCharactersState,
+    charactersState => charactersState.entities[id]
+);
+
+export const selectFilteredCharacters = createSelector(
+    selectCharactersState,
+    charactersState => charactersState.filteredCharacters
+);
+
 export const charactersLoaded = createSelector(
     selectCharactersState,
     charactersState => charactersState.charactersLoaded
 );
 
+export const charactersLoading = createSelector(
+    selectCharactersState,
+    charactersState => charactersState.loading
+);
+
+export const charactersPageIndex = createSelector(
+    selectCharactersState,
+    charactersState => charactersState.pageIndex
+);
+
 export const selectCharactersPage = (page: PageQuery) => createSelector(
-    selectCharacters,
-    allCharacters => {
+    selectFilteredCharacters,
+    filteredCharacters => {
 
         const start = page.pageIndex * page.pageSize;
         const end = start + page.pageSize;
-        return allCharacters
+        return filteredCharacters
             .slice(start, end);
 
     }
 );
-
 
 
 

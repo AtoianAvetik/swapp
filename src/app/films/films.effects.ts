@@ -22,7 +22,7 @@ export class FilmsEffects {
             withLatestFrom(this.store.pipe(select(filmsLoaded))),
             filter(([action, isFilmsLoaded]) => !isFilmsLoaded),
             mergeMap(() => this.$filmsService.getAllFilms()),
-            map(films =>  new FilmsLoaded({films}))
+            map(films => new FilmsLoaded({films}))
         );
 
     constructor(private actions$: Actions, private $filmsService: FilmsService,

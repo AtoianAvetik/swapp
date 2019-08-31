@@ -7,7 +7,7 @@ import { State } from '../reducers';
 import { CharactersService } from './_services/characters.service';
 import {
     CharactersActionTypes,
-    CharactersLoaded,
+    CharactersLoaded, CharactersLoadingStarted,
     CharactersRequested
 } from './characters.actions';
 import { charactersLoaded } from './characters.selectors';
@@ -20,12 +20,14 @@ export class CharactersEffects {
         .pipe(
             ofType<CharactersRequested>(CharactersActionTypes.CHARACTERS_REQUESTED),
             withLatestFrom(this.store.pipe(select(charactersLoaded))),
-            filter(([action, isCharactersLoaded]) => !isCharactersLoaded),
+            filter(([action, isCharactersLoaded]) => {
+                if (!isCharactersLoaded) {
+                    this.store.dispatch(new CharactersLoadingStarted());
+                }
+                return !isCharactersLoaded;
+            }),
             mergeMap(() => this.$charactersService.getAllCharacters()),
-            map(characters => {
-                // console.log(characters);
-                return new CharactersLoaded({characters});
-            })
+            map(characters => new CharactersLoaded({characters}))
         );
 
     constructor(private actions$: Actions, private $charactersService: CharactersService,

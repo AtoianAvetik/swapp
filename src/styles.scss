@@ -1,8 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-
+// Mixins
+@import "assets/styles/mixins/animations";
+@import "assets/styles/mixins/vendor-prefixes";
+// Components
+@import "assets/styles/components/loader";
+// Plugins
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~nouislider/distribute/nouislider.min.css";
 @import "~@angular/material/theming";
-
 // Include non-theme styles for core.
 @include mat-core();
 
@@ -41,7 +46,7 @@ $mat-custom-theme: (
 
 // Define a theme.
 $primary: mat-palette($mat-blue-grey);
-$accent:  mat-palette($mat-pink, A200, A100, A400);
+$accent: mat-palette($mat-pink, A200, A100, A400);
 
 $theme: mat-light-theme($primary, $accent);
 

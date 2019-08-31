@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { Character } from '../models/character';
 import { CharactersDataSource } from '../_services/characters.datasource';
 import { State } from '../../reducers';
-import { PageQuery } from '../characters.actions';
+import { CharactersPageChanged, PageQuery } from '../characters.actions';
 import { tap } from 'rxjs/operators';
+import { charactersPageIndex } from '../characters.selectors';
 
 @Component({
     selector: 'app-characters-list',
@@ -16,20 +17,25 @@ import { tap } from 'rxjs/operators';
 export class CharactersListComponent implements OnInit, AfterViewInit {
     @Input() characters: Character[];
     dataSource: CharactersDataSource;
-    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
     pageSize = 10;
+    pageIndex$ = this.store.pipe(select(charactersPageIndex));
 
     constructor(private store: Store<State>) {
     }
 
     ngOnInit() {
         this.dataSource = new CharactersDataSource(this.store);
-        const initialPage: PageQuery = {
-            pageIndex: 0,
-            pageSize: this.pageSize
-        };
-        this.dataSource.loadCharacters(initialPage);
+        this.store.pipe(
+            select(charactersPageIndex)
+        ).subscribe(pageIndex => {
+            const initialPage: PageQuery = {
+                pageIndex,
+                pageSize: this.pageSize
+            };
+            this.dataSource.loadCharacters(initialPage);
+        });
     }
 
     ngAfterViewInit() {
@@ -47,5 +53,8 @@ export class CharactersListComponent implements OnInit, AfterViewInit {
         };
 
         this.dataSource.loadCharacters(newPage);
+
+        // store current page index
+        this.store.dispatch(new CharactersPageChanged({pageIndex: newPage.pageIndex}));
     }
 }

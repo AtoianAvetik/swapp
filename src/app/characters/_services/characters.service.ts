@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { expand, map, scan } from 'rxjs/operators';
+import { expand, last, map, scan } from 'rxjs/operators';
 
 import { ApiService } from '../../core/_services/api.service';
 import { Character } from '../models/character';
+import { State } from '../../reducers';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class CharactersService {
-    constructor(private $apiService: ApiService) {
+    constructor(private $apiService: ApiService,
+                private store: Store<State>) {
 
     }
 
@@ -19,7 +22,8 @@ export class CharactersService {
                     : of()),
                 map(res => res['results']),
                 scan((acc, res) => acc.concat(res), []),
-                map(res => res.map((v, i) => new Character(v, i.toString()))),
+                last(),
+                map(res => res.map((v, i) => new Character(v, i.toString(), this.store))),
             );
     }
 }

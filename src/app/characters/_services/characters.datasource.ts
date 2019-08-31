@@ -22,7 +22,6 @@ export class CharactersDataSource implements DataSource<Character> {
                 catchError(() => of([]))
             )
             .subscribe();
-
     }
 
     connect(collectionViewer: CollectionViewer): Observable<Character[]> {

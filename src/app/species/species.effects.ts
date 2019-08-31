@@ -22,7 +22,7 @@ export class SpeciesEffects {
             withLatestFrom(this.store.pipe(select(speciesLoaded))),
             filter(([action, isSpeciesLoaded]) => !isSpeciesLoaded),
             mergeMap(() => this.$speciesService.getAllSpecies()),
-            map(species =>  new SpeciesLoaded({species}))
+            map(species => new SpeciesLoaded({species}))
         );
 
     constructor(private actions$: Actions, private $speciesService: SpeciesService,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { expand, map, scan } from 'rxjs/operators';
+import { expand, last, map, scan } from 'rxjs/operators';
 
 import { ApiService } from '../../core/_services/api.service';
 import { Species } from '../models/species';
@@ -19,6 +19,7 @@ export class SpeciesService {
                     : of()),
                 map(res => res['results']),
                 scan((acc, res) => acc.concat(res), []),
+                last(),
                 map(res => res.map((v, i) => new Species(v, i.toString()))),
             );
     }

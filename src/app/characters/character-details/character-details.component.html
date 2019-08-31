@@ -1,1 +1,19 @@
-<p>character-details works!</p>
+<button type="button" class="btn btn-sm btn-outline-secondary" (click)="goBack()">
+    <i class="ft-chevron-left"></i> Go back
+</button>
+<div class="card mt-3">
+    <div class="card-header">
+        <div class="h5 card-title">{{ character?.name }}</div>
+    </div>
+    <div class="card-body">
+        <p class="card-text" *ngIf="character?.species.length"><strong>Species</strong>:
+            <span *ngFor="let specie of character?.species;let i = index;">{{ specie }}{{(i + 1 < character?.species.length) ? ', ' : ' '}}</span>
+        </p>
+        <p class="card-text" *ngIf="character?.films.length"><strong>Movies</strong>:
+            <span *ngFor="let film of character?.films;let i = index;">{{ film }}{{(i + 1 < character?.films.length) ? ', ' : ' '}}</span>
+        </p>
+        <p class="card-text" *ngIf="character?.starships.length"><strong>Spaceships</strong>:
+            <span *ngFor="let starship of character?.starships;let i = index;">{{ starship }}{{(i + 1 < character?.starships.length) ? ', ' : ' '}}</span>
+        </p>
+    </div>
+</div>
