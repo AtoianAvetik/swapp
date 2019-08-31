@@ -21,7 +21,7 @@ export class FilterComponent implements OnInit, AfterViewInit {
     species$ = this.store.select(selectSpecies);
     characters$ = this.store.select(selectCharacters);
 
-
+    birthYearRange = [0, 0];
     minRange = 0;
     maxRange = 10;
     step = 1;
@@ -44,17 +44,11 @@ export class FilterComponent implements OnInit, AfterViewInit {
                 private store: Store<State>,
                 private cdRef: ChangeDetectorRef) {
         this.initForm();
-        this.updateFormValue();
+        this.updateFilter();
     }
 
     ngOnInit(): void {
-        this.form.get('species').valueChanges.subscribe(species => {
-            this.updateFormValue(Object.assign({}, this.form.value, {species}));
-        });
-        //
-        this.form.get('films').valueChanges.subscribe(films => {
-            this.updateFormValue(Object.assign({}, this.form.value, {films}));
-        });
+        this.form.valueChanges.subscribe(res => this.updateFilter(res));
     }
 
     ngAfterViewInit(): void {
@@ -66,9 +60,9 @@ export class FilterComponent implements OnInit, AfterViewInit {
         )
             .subscribe(res => {
                 this.maxRange = res.length ? Math.max.apply(this, res) : this.maxRange;
+                this.birthYearRange = [0, this.maxRange];
                 this.cdRef.detectChanges();
-                this.form.controls['birthYear'].patchValue([0, this.maxRange]);
-                this.updateFormValue();
+                this.birthYearRangeChanged();
             });
     }
 
@@ -80,7 +74,12 @@ export class FilterComponent implements OnInit, AfterViewInit {
         });
     }
 
-    updateFormValue(filter = this.form.value) {
+    birthYearRangeChanged(e = this.birthYearRange) {
+        this.form.controls['birthYear'].patchValue(e);
+        this.updateFilter();
+    }
+
+    updateFilter(filter = this.form.value) {
         this.store.dispatch(new CharactersFiltered({filter}));
         // reset paginator
         this.store.dispatch(new CharactersPageChanged({pageIndex: 0}));

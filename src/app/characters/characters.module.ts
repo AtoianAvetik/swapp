@@ -12,7 +12,7 @@ import * as fromCharacters from './characters.reducers';
 import { CharactersEffects } from './characters.effects';
 import { CharactersRoutingModule } from './characters-routing.module';
 import { NgtModule } from 'ng-tools';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NouisliderModule } from 'ng2-nouislider';
 import { FilterComponent } from './filter/filter.component';
 
@@ -31,6 +31,7 @@ import { FilterComponent } from './filter/filter.component';
         MatCardModule,
         MatPaginatorModule,
         NgtModule,
+        FormsModule,
         ReactiveFormsModule,
         MatSelectModule,
         NouisliderModule,

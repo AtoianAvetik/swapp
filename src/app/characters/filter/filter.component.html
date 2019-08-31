@@ -22,8 +22,9 @@
                     [max]="maxRange"
                     [step]="step"
                     [config]="sliderConfig"
-                    (end)="updateFormValue()"
-                    [formControl]="form.controls.birthYear"></nouislider>
+                    (end)="birthYearRangeChanged($event)"
+                    [(ngModel)]="birthYearRange"
+                    [ngModelOptions]="{standalone: true}"></nouislider>
         <label>Birth year</label>
     </div>
 </form>
