@@ -17,6 +17,7 @@ import { CharactersModule } from './characters/characters.module';
 import { FilmsModule } from './films/films.module';
 import { SpeciesModule } from './species/species.module';
 import { StarshipsModule } from './starships/starships.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { StarshipsModule } from './starships/starships.module';
         }),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         EffectsModule.forRoot([]),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     bootstrap: [AppComponent],
 })

@@ -8,7 +8,10 @@ import { PageQuery } from '../characters.actions';
 import { selectCharactersPage } from '../characters.selectors';
 
 export class CharactersDataSource implements DataSource<Character> {
-    private charactersSubject = new BehaviorSubject<Character[]>([]);
+    private _charactersSubject = new BehaviorSubject<Character[]>([]);
+    get charactersSubject() {
+        return this._charactersSubject;
+    }
 
     constructor(private store: Store<State>) {
 
@@ -18,7 +21,7 @@ export class CharactersDataSource implements DataSource<Character> {
         this.store
             .pipe(
                 select(selectCharactersPage(page)),
-                tap(characters => this.charactersSubject.next(characters)),
+                tap(characters => this._charactersSubject.next(characters)),
                 catchError(() => of([]))
             )
             .subscribe();
@@ -26,11 +29,11 @@ export class CharactersDataSource implements DataSource<Character> {
 
     connect(collectionViewer: CollectionViewer): Observable<Character[]> {
         console.log('Connecting data source');
-        return this.charactersSubject.asObservable();
+        return this._charactersSubject.asObservable();
     }
 
     disconnect(collectionViewer: CollectionViewer): void {
-        this.charactersSubject.complete();
+        this._charactersSubject.complete();
     }
 }
 
