@@ -4,7 +4,7 @@ import { State } from '../../reducers';
 import { select, Store } from '@ngrx/store';
 import { selectCharacter } from '../characters.selectors';
 import { Subscription } from 'rxjs';
-import { appDataLoading } from '../../app.selectors';
+import { dataLoading } from '../../selectors/data.selectors';
 
 @Component({
     selector: 'app-character-details',
@@ -26,7 +26,7 @@ export class CharacterDetailsComponent implements OnInit, OnDestroy {
                 .subscribe(res => {
                     this.character = res;
                 }));
-            this.subscriptions.push(this.store.pipe(select(appDataLoading))
+            this.subscriptions.push(this.store.pipe(select(dataLoading))
                 .subscribe(res => {
                     if ( !res && !this.character ) { // if loading finished and character not founded then go to list
                         this.goBack();

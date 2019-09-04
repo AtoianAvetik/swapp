@@ -3,7 +3,7 @@ import { NgtLoaderService } from 'ng-tools';
 import { select, Store } from '@ngrx/store';
 import { State } from './reducers';
 import { DataService } from './core/_services/data.service';
-import { appDataLoading } from './app.selectors';
+import { dataLoading } from './selectors/data.selectors';
 
 @Component({
     selector: 'app-root',
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             id: 'appLoader'
         });
 
-        this.store.pipe(select(appDataLoading))
+        this.store.pipe(select(dataLoading))
             .subscribe(res => {
                 res ? this.loader.present() : this.loader.dismiss();
             });

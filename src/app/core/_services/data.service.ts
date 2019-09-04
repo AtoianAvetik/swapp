@@ -12,7 +12,7 @@ import { CharactersRequested } from '../../characters/characters.actions';
 import { starshipsLoaded } from '../../starships/starships.selectors';
 import { filmsLoaded } from '../../films/films.selectors';
 import { speciesLoaded } from '../../species/species.selectors';
-import { AppDataLoaded, AppDataLoadingStarted } from '../../app.actions';
+import { DataLoaded, DataLoadingStarted } from '../../actions/data.actions';
 import { charactersLoaded } from '../../characters/characters.selectors';
 
 @Injectable({
@@ -25,10 +25,10 @@ export class DataService {
     }
 
     requestAllData() {
-        this.store.dispatch(new AppDataLoadingStarted());
+        this.store.dispatch(new DataLoadingStarted());
         this.store.select(charactersLoaded).subscribe(res => {
             if ( !!res ) {
-                this.store.dispatch(new AppDataLoaded());
+                this.store.dispatch(new DataLoaded());
             }
         });
 
