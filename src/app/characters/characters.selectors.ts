@@ -27,11 +27,6 @@ export const charactersLoaded = createSelector(
     charactersState => charactersState.charactersLoaded
 );
 
-export const charactersLoading = createSelector(
-    selectCharactersState,
-    charactersState => charactersState.loading
-);
-
 export const charactersPageIndex = createSelector(
     selectCharactersState,
     charactersState => charactersState.pageIndex

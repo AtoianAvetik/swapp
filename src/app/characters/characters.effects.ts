@@ -6,7 +6,7 @@ import { filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { State } from '../reducers';
 import {
     CharactersActionTypes,
-    CharactersLoaded, CharactersLoadingStarted,
+    CharactersLoaded,
     CharactersRequested
 } from './characters.actions';
 import { charactersLoaded } from './characters.selectors';
@@ -21,12 +21,7 @@ export class CharactersEffects {
         .pipe(
             ofType<CharactersRequested>(CharactersActionTypes.CHARACTERS_REQUESTED),
             withLatestFrom(this.store.pipe(select(charactersLoaded))),
-            filter(([action, isCharactersLoaded]) => {
-                if (!isCharactersLoaded) {
-                    this.store.dispatch(new CharactersLoadingStarted());
-                }
-                return !isCharactersLoaded;
-            }),
+            filter(([action, isCharactersLoaded]) => !isCharactersLoaded),
             mergeMap(() => this.$dataService.fetchPaginatedData('people/')),
             map(characters => new CharactersLoaded({
                 characters: characters.map((v, i) => new Character(v, i.toString(), this.store))

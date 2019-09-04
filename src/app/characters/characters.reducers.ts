@@ -10,7 +10,6 @@ export interface CharactersState extends EntityState<Character> {
     charactersLoaded: boolean;
     filteredCharacters: Character[];
     pageIndex: number;
-    loading: boolean;
 }
 
 export const adapter: EntityAdapter<Character> =
@@ -20,15 +19,12 @@ export const initialState: CharactersState = adapter.getInitialState({
     charactersLoaded: false,
     filteredCharacters: [],
     pageIndex: 0,
-    loading: false
 });
 
 export function charactersReducers(state = initialState, action: CharactersActions): CharactersState {
     switch (action.type) {
         case CharactersActionTypes.CHARACTERS_LOADED:
-            return adapter.addAll(action.payload.characters, {...state, charactersLoaded: true, loading: false});
-        case CharactersActionTypes.CHARACTERS_LOADING_STARTED:
-            return {...state, loading: true};
+            return adapter.addAll(action.payload.characters, {...state, charactersLoaded: true});
         case CharactersActionTypes.CHARACTERS_PAGE_CHANGED:
             return {...state, pageIndex: action.payload.pageIndex};
         case CharactersActionTypes.CHARACTERS_FILTERED:

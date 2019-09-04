@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { State } from '../../reducers';
 import { select, Store } from '@ngrx/store';
-import { charactersLoading, selectCharacter } from '../characters.selectors';
+import { selectCharacter } from '../characters.selectors';
 import { Subscription } from 'rxjs';
+import { appDataLoading } from '../../app.selectors';
 
 @Component({
     selector: 'app-character-details',
@@ -25,7 +26,7 @@ export class CharacterDetailsComponent implements OnInit, OnDestroy {
                 .subscribe(res => {
                     this.character = res;
                 }));
-            this.subscriptions.push(this.store.pipe(select(charactersLoading))
+            this.subscriptions.push(this.store.pipe(select(appDataLoading))
                 .subscribe(res => {
                     if ( !res && !this.character ) { // if loading finished and character not founded then go to list
                         this.goBack();

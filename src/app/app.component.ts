@@ -2,11 +2,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgtLoaderService } from 'ng-tools';
 import { select, Store } from '@ngrx/store';
 import { State } from './reducers';
-import { charactersLoading } from './characters/characters.selectors';
-import { FilmsRequested } from './films/films.actions';
-import { SpeciesRequested } from './species/species.actions';
-import { StarshipsRequested } from './starships/starships.actions';
-import { CharactersRequested } from './characters/characters.actions';
+import { DataService } from './core/_services/data.service';
+import { appDataLoading } from './app.selectors';
 
 @Component({
     selector: 'app-root',
@@ -18,14 +15,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     loader;
 
     constructor(private $loaderService: NgtLoaderService,
+                private $dataService: DataService,
                 private store: Store<State>) {
     }
 
     ngOnInit(): void {
-        this.store.dispatch(new FilmsRequested());
-        this.store.dispatch(new SpeciesRequested());
-        this.store.dispatch(new StarshipsRequested());
-        this.store.dispatch(new CharactersRequested());
+        this.$dataService.requestAllData();
     }
 
     ngAfterViewInit(): void {
@@ -33,7 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             id: 'appLoader'
         });
 
-        this.store.pipe(select(charactersLoading))
+        this.store.pipe(select(appDataLoading))
             .subscribe(res => {
                 res ? this.loader.present() : this.loader.dismiss();
             });
