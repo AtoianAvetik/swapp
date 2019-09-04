@@ -20,7 +20,6 @@ export class FilterComponent implements OnInit, AfterViewInit {
     species$ = this.store.select(selectSpecies);
     characters$ = this.store.select(selectCharacters);
 
-    birthYearRange = [0, 0];
     minRange = 0;
     maxRange = 10;
     sliderConfig: any = {
@@ -54,8 +53,7 @@ export class FilterComponent implements OnInit, AfterViewInit {
         )
             .subscribe(res => {
                 this.maxRange = res.length ? Math.max.apply(this, res) : this.maxRange;
-                this.birthYearRange = [0, this.maxRange];
-                this.form.controls['birthYear'].patchValue(this.birthYearRange);
+                this.form.controls['birthYear'].patchValue([0, this.maxRange]);
                 this.cdRef.detectChanges();
                 this.updateFilter();
             });
